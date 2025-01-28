@@ -17,6 +17,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_URL ||
+      "http://localhost:3000" ||
+      "http://localhost:3001"
+  ),
   title: "CareerBoost AI | AI-Powered Resume Tailoring",
   description:
     "Transform your resume with AI-powered tailoring. Get personalized suggestions and optimize your resume for your dream job.",
