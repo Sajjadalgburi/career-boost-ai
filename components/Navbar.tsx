@@ -4,15 +4,13 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-between items-center p-4 w-full max-w-5xl container">
+    <nav className="flex justify-between items-center p-3 mt-3 w-full max-w-5xl container bg-background dark:bg-background border border-border backdrop-blur-lg rounded-2xl sticky top-0 z-50">
       <p className="text-2xl font-bold p-2">CareerBoost AI</p>
       <div className="flex items-center gap-2">
         <ModeToggle />
 
         <SignedIn>
-          <span className="auth-button">
-            <UserButton />
-          </span>
+          <UserButton />
         </SignedIn>
 
         <SignedOut>
