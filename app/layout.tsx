@@ -16,11 +16,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const baseUrl = "https://career-boost-ai-lld3.vercel.app/";
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_URL ||
-      "http://localhost:3000" ||
-      "http://localhost:3001"
+    baseUrl || "http://localhost:3000" || "http://localhost:3001"
   ),
   title: "CareerBoost AI | AI-Powered Resume Tailoring",
   description:
@@ -48,10 +47,7 @@ export const metadata: Metadata = {
     description: "Transform your resume with AI-powered tailoring",
   },
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/favicon.ico" }],
     apple: "/apple-touch-icon.png",
   },
 };
