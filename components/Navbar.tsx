@@ -10,15 +10,15 @@ const Navbar = () => {
         <ModeToggle />
 
         <SignedIn>
-          <div className="auth-button">
+          <span className="auth-button">
             <UserButton />
-          </div>
+          </span>
         </SignedIn>
 
         <SignedOut>
-          <div className="auth-button">
+          <span className="auth-button">
             <SignInButton />
-          </div>
+          </span>
         </SignedOut>
       </div>
     </nav>
