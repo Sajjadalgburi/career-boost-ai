@@ -1,7 +1,9 @@
 "use client";
 
 import LandingPage from "@/components/LandingPage";
+import { setErrorToast } from "@/helpers";
 import React from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const Page = () => {
   const [showResults, setShowResults] = React.useState<boolean>(false);
@@ -27,6 +29,12 @@ const Page = () => {
       // If no file is uploaded, return
       if (!file) return;
 
+      if (file.type !== "application/pdf") {
+        setErrorToast("File is not a PDF. Please upload a PDF file.", 3000);
+        setResume(null);
+        return;
+      }
+
       // Send the resume as form data
       const formData = new FormData();
       formData.append("file", file);
@@ -38,20 +46,13 @@ const Page = () => {
 
       // If the file is not a PDF, set the error
       if (res.status === 429) {
-        setError("File is not a PDF. Please upload a PDF file.");
-        setTimeout(() => {
-          setResume(null);
-          setError("");
-        }, 3000);
+        setErrorToast("File is not a PDF. Please upload a PDF file.", 3000);
         return;
       }
 
       // If the response is not ok, set the error
       if (!res.ok) {
-        setError("Failed to upload resume. Try again.");
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        setErrorToast("Failed to upload resume. Try again.", 3000);
         return;
       }
 
@@ -60,9 +61,10 @@ const Page = () => {
       setResume(file);
       setResumeLoading(false);
       setShowConfetti(true);
+      toast.success("Resume uploaded successfully", { duration: 1500 });
     } catch (error) {
       console.error(error);
-      setError("An unexpected error occurred");
+      setErrorToast("An unexpected error occurred", 3000);
     } finally {
       setResumeLoading(false);
     }
@@ -71,31 +73,19 @@ const Page = () => {
   const handleSubmit = async () => {
     try {
       if (!prompt) {
-        setError("Please enter a prompt");
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        setErrorToast("Please enter a prompt", 3000);
         return;
       }
       if (!resume) {
-        setError("Please upload a resume");
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        setErrorToast("Please upload a resume", 3000);
         return;
       }
       if (prompt.length > 100) {
-        setError("Prompt must be less than 100 characters");
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        setErrorToast("Prompt must be less than 100 characters", 3000);
         return;
       }
       if (prompt.length < 7) {
-        setError("Prompt must be more than 7 characters");
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        setErrorToast("Prompt must be more than 7 characters", 3000);
         return;
       }
 
@@ -119,18 +109,12 @@ const Page = () => {
         }),
       });
       if (res.status === 400) {
-        setError("Missing prompt or userResume");
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        setErrorToast("Missing prompt or userResume", 3000);
         return;
       }
 
       if (!res.ok) {
-        setError("Failed to get improved resume");
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        setErrorToast("Failed to get improved resume");
         return;
       }
 
@@ -139,7 +123,7 @@ const Page = () => {
       setShowResults(true);
     } catch (error) {
       console.error(error);
-      setError("An unexpected error occurred");
+      setErrorToast("An unexpected error occurred", 3000);
     } finally {
       setLoading(false);
     }
@@ -147,6 +131,7 @@ const Page = () => {
 
   return isPageLoaded ? (
     <section>
+      <Toaster position="top-center" reverseOrder={false} />
       {!showResults ? (
         <LandingPage
           handleResumeUpload={handleResumeUpload}
