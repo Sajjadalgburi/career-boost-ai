@@ -3,8 +3,21 @@ import { Input } from "./ui/input";
 import React from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import dynamic from "next/dynamic";
+import { LandingPageProps } from "@/interfaces";
+const ReactConfetti = dynamic(() => import("react-confetti"), { ssr: false });
 
-const LandingPage = () => {
+const LandingPage: React.FC<LandingPageProps> = ({
+  handleSubmit,
+  showConfetti,
+  handleResumeUpload,
+  setError,
+  error,
+  setPrompt,
+  resume,
+  loading,
+  prompt,
+}) => {
   return (
     <div className="max-w-5xl container w-full flex flex-col items-center justify-center gap-6 md:gap-10 mb-[100px]">
       <div className="flex flex-col items-center justify-center gap-4 md:gap-6 text-center">
@@ -39,14 +52,25 @@ const LandingPage = () => {
             placeholder="Ask a question"
             className="h-[70px] md:h-12 lg:h-[70px] w-full shadow-xl rounded-xl px-4"
             required
+            value={prompt}
+            onChange={(e) => {
+              if (prompt.length > 100 && prompt.length < 7) {
+                setError("Prompt must be between 7 and 100 characters");
+                return;
+              }
+
+              setPrompt(e.target.value);
+            }}
             minLength={7}
             maxLength={100}
           />
           <Button
             type="submit"
+            disabled={loading}
+            onClick={handleSubmit}
             className="absolute right-2 top-1/2 -translate-y-1/2 h-[40px] sm:h-[55px]"
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </Button>
         </div>
 
@@ -54,15 +78,23 @@ const LandingPage = () => {
           <Input
             id="picture"
             type="file"
+            onChange={handleResumeUpload}
             className="w-full sm:w-auto cursor-pointer"
           />
           <Label
             htmlFor="picture"
-            className="text-sm md:text-base text-muted-foreground cursor-pointer p-2 rounded-xl bg-muted shadow-xl"
+            className={`text-sm md:text-base cursor-pointer p-2 rounded-xl shadow-xl ${
+              resume
+                ? "bg-green-500 text-white"
+                : "bg-muted text-muted-foreground"
+            }`}
           >
-            Upload resume
+            {resume ? "Resume uploaded" : "Upload resume"}
           </Label>
         </div>
+        {showConfetti && <ReactConfetti recycle={false} />}
+
+        {error && <p className="text-sm text-red-500">{error}</p>}
       </div>
     </div>
   );
