@@ -13,6 +13,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
   handleResumeUpload,
   error,
   setPrompt,
+  resumeLoading,
   resume,
   loading,
   prompt,
@@ -83,7 +84,11 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 : "bg-muted text-muted-foreground"
             }`}
           >
-            {resume ? "Resume uploaded" : "Upload resume"}
+            {resumeLoading
+              ? "Uploading..."
+              : resume
+              ? "Resume uploaded"
+              : "Upload resume"}
           </Label>
         </div>
         {showConfetti && <ReactConfetti recycle={false} />}
