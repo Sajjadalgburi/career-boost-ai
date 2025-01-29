@@ -17,16 +17,26 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Place holder system prompt
+  // Change later
   const mainSystemPrompt = `
-  You are a helpful assistant that helps users improve their resume.
-  You are given a user's resume and a prompt.
-  You are to improve the resume based on the prompt.
-  `;
+You are an expert resume assistant dedicated to helping users enhance their resumes. 
+Your role is to analyze the given resume, identify areas for improvement, and refine it based on the user's prompt. 
+
+Responsibilities:
+- Provide constructive feedback on clarity, structure, formatting, and content.
+- Improve wording, highlight achievements, and optimize for readability and impact.
+- Ensure the resume aligns with best practices and industry standards.
+- Maintain professionalism and clarity while preserving the user's original intent.
+
+Return an improved version of the resume with all suggested changes incorporated.
+DO NOT RETURN THE RESUME ITSELF, RATHER YOU SHOULD HIGHLIGHT THE IMPROVEMENTS IN THE RESUME.
+`;
 
   const userPrompt = `
-  User prompt: ${prompt}
-  User resume: ${userResume}
-  `;
+User request: ${prompt}
+Current resume: ${userResume}
+`;
 
   const result = await streamText({
     model: together("meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo"),
@@ -51,7 +61,9 @@ export async function POST(req: NextRequest) {
   });
 
   // Return the stream with appropriate headers
-  return new Response(stream, {
+
+  // ! TESTING - REMOVE LATER
+  return new Response("Hello World", {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Transfer-Encoding": "chunked",
