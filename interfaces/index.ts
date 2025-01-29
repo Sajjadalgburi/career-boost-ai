@@ -5,6 +5,7 @@ export interface LandingPageProps {
   setPrompt: React.Dispatch<React.SetStateAction<string>>;
   loading: boolean;
   prompt: string;
+  resumeLoading: boolean;
   resume: File | null;
   showConfetti: boolean;
   handleResumeUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
