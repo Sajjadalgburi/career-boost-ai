@@ -6,6 +6,7 @@ import React from "react";
 const Page = () => {
   const [showResults, setShowResults] = React.useState<boolean>(false);
   const [resume, setResume] = React.useState<File | null>(null);
+  const [resumeText, setResumeText] = React.useState<string>("");
   const [prompt, setPrompt] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>("");
@@ -37,7 +38,6 @@ const Page = () => {
       // If the file is not a PDF, set the error
       if (res.status === 429) {
         setError("File is not a PDF. Please upload a PDF file.");
-
         setTimeout(() => {
           setResume(null);
           setError("");
@@ -55,12 +55,10 @@ const Page = () => {
       }
 
       const { text } = await res.json();
-      console.log(text);
-
-      // Show confetti if a file is uploaded
+      setResumeText(text);
+      setResume(file);
       setResumeLoading(false);
       setShowConfetti(true);
-      setResume(text);
     } catch (error) {
       console.error(error);
       setError("An unexpected error occurred");
@@ -69,7 +67,7 @@ const Page = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       if (!prompt) {
         setError("Please enter a prompt");
@@ -108,6 +106,35 @@ const Page = () => {
        * 3a. Make API call to get chat response from AI
        * 3b. Scrape LinkedIn profile based on user resume
        */
+
+      const res = await fetch("/api/improvedResume", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: prompt as string,
+          userResume: resumeText as string,
+        }),
+      });
+      if (res.status === 400) {
+        setError("Missing prompt or userResume");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+        return;
+      }
+
+      if (!res.ok) {
+        setError("Failed to get improved resume");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+        return;
+      }
+
+      const data = await res.body;
+      console.log(data);
     } catch (error) {
       console.error(error);
       setError("An unexpected error occurred");
