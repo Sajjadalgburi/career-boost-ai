@@ -13,6 +13,7 @@ const Page = () => {
   const [showConfetti, setShowConfetti] = React.useState(false);
   const [isPageLoaded, setIsPageLoaded] = React.useState(false);
   const [resumeLoading, setResumeLoading] = React.useState(false);
+  const [answer, setAnswer] = React.useState<string>("");
 
   // Makes sure that the page is loaded to ensure there are no 'Hydration' errors
   React.useEffect(() => {
@@ -133,8 +134,9 @@ const Page = () => {
         return;
       }
 
-      const data = await res.body;
-      console.log(data);
+      const data = await res.text();
+      setAnswer(data);
+      setShowResults(true);
     } catch (error) {
       console.error(error);
       setError("An unexpected error occurred");
@@ -159,7 +161,9 @@ const Page = () => {
           error={error}
         />
       ) : (
-        <div>Results</div>
+        <div>
+          <p>{answer}</p>
+        </div>
       )}
     </section>
   ) : (
