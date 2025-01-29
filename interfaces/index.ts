@@ -9,6 +9,5 @@ export interface LandingPageProps {
   showConfetti: boolean;
   handleResumeUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: string;
-  setError: React.Dispatch<React.SetStateAction<string>>;
   handleSubmit: () => void;
 }
