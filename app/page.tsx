@@ -23,10 +23,22 @@ const Page = () => {
   const handleSubmit = () => {
     if (!prompt) {
       setError("Please enter a prompt");
+      setTimeout(() => setError(""), 2000);
       return;
     }
     if (!resume) {
       setError("Please upload a resume");
+      setTimeout(() => setError(""), 2000);
+      return;
+    }
+    if (prompt.length > 100) {
+      setError("Prompt must be less than 100 characters");
+      setTimeout(() => setError(""), 2000);
+      return;
+    }
+    if (prompt.length < 7) {
+      setError("Prompt must be more than 7 characters");
+      setTimeout(() => setError(""), 2000);
       return;
     }
 
