@@ -31,9 +31,9 @@ const LandingPage: React.FC<LandingPageProps> = ({
         </span>
 
         {/* Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-8xl font-bold">
+        <h1 className="text-4xl mt-3 sm:text-6xl lg:text-8xl font-bold">
           Seek Your{" "}
-          <span className="text-[purple] dark:text-blue-500">
+          <span className="text-[purple] dark:text-blue-500 dark:bg-white bg-gray-200 rounded-lg px-2">
             <i>Dream</i>
           </span>{" "}
           Job
