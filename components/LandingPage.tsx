@@ -11,7 +11,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
   handleSubmit,
   showConfetti,
   handleResumeUpload,
-  setError,
   error,
   setPrompt,
   resume,
@@ -54,11 +53,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
             required
             value={prompt}
             onChange={(e) => {
-              if (prompt.length > 100 && prompt.length < 7) {
-                setError("Prompt must be between 7 and 100 characters");
-                return;
-              }
-
               setPrompt(e.target.value);
             }}
             minLength={7}
