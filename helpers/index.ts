@@ -35,6 +35,10 @@ export const examples = [
 export const parseAiResponse = (
   htmlString: string
 ): { weaknesses: string; improvements: string; rewrittenResume: string } => {
+
+  // Remove old data from local storage
+  localStorage.removeItem("resumeImprovement");
+
   // Create a DOM parser
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
@@ -63,9 +67,16 @@ export const parseAiResponse = (
     ?.querySelector("rewritten-resume")
     ?.textContent?.trim();
 
-  return {
+  
+  const res = {
     weaknesses: weaknesses || "",
     improvements: improvements || "",
     rewrittenResume: rewrittenResume || "",
   };
+
+
+  // Save the new data to local storage
+  localStorage.setItem("resumeImprovement", JSON.stringify(res));
+
+  return res;
 };
