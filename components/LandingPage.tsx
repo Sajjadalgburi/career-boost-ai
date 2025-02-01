@@ -10,7 +10,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
   handleSubmit,
   showConfetti,
   handleResumeUpload,
-  error,
   setPrompt,
   resumeLoading,
   resume,
@@ -58,7 +57,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
         />
         {showConfetti && <ReactConfetti recycle={false} />}
 
-        {error && <p className="text-sm text-red-500">{error}</p>}
       </div>
     </div>
   );
