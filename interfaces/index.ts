@@ -9,6 +9,5 @@ export interface LandingPageProps {
   resume: File | null;
   showConfetti: boolean;
   handleResumeUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error: string;
   handleSubmit: () => void;
 }
