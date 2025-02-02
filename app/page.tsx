@@ -13,6 +13,7 @@ const Page = () => {
   const [resume, setResume] = React.useState<File | null>(null);
   const [resumeText, setResumeText] = React.useState<string>("");
   const [prompt, setPrompt] = React.useState<string>("");
+
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showConfetti, setShowConfetti] = React.useState(false);
   const [isPageLoaded, setIsPageLoaded] = React.useState(false);
@@ -146,10 +147,8 @@ const Page = () => {
       ) : (
         <div className="w-full flex min-h-fit items-center gap-3 px-3">
           {/* Resume Improvement from AI */}
-          <div className="w-2/3 h-[750px] backdrop-blur-lg p-5 shadow-2xl rounded-xl border border-white/65">
-            <div className="w-full backdrop-blur-lg p-4 flex items-start gap-2 border border-white/65">
-              <RenderResumeImprovement isLoading={loading} answer={answer} />
-            </div>
+          <div className="w-2/3 h-[750px] backdrop-blur-lg overflow-auto p-5 shadow-2xl rounded-xl border border-white/65">
+            <RenderResumeImprovement isLoading={loading} answer={answer} />
           </div>
 
           <div className="w-1/3 h-[500px] flex flex-col gap-4">
