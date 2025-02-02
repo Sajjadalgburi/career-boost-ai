@@ -34,11 +34,13 @@ const RenderResumeImprovement: React.FC<RenderResumeImprovementProps> = ({
       // Parse new AI response and save to state and localStorage
       const parsed = parseAiResponse(answer);
       setParsedAiRes(parsed);
-      localStorage.setItem("resumeImprovement", JSON.stringify(parsed));
+      localStorage.setItem("resume-feedback", JSON.stringify(parsed));
     } else if (!isLoading) {
       // If no answer and not loading, try to get from localStorage
       try {
-        const savedResponse = localStorage.getItem("resumeImprovement");
+        const savedResponse = localStorage.getItem("resume-feedback");
+        const savedImproved = localStorage.getItem("resume-improved");
+        console.log(savedImproved);
         if (savedResponse) {
           const parsed = JSON.parse(savedResponse);
           setParsedAiRes(parsed);
