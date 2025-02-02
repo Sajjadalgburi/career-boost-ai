@@ -37,12 +37,32 @@ Your role is to analyze the given resume, identify areas for improvement, and re
   <resume-analysis>
     <weaknesses>
       --YOUR CONTENT HERE--
+      List specific weaknesses of the resume, such as missing sections, lack of details, formatting issues, etc.
+      <list>
+        <item>
+          Weakness 1
+        </item>
+        <item>
+          Weakness 2
+        </item>
+      </list>
     </weaknesses>
     <improvements>
       --YOUR CONTENT HERE--
+      Provide actionable suggestions to improve the resume.
+      <list>
+        <item>
+          Improvement 1
+        </item>
+        <item>
+          Improvement 2
+        </item>
+      </list>
     </improvements>
     <rewritten-resume>
       --YOUR CONTENT HERE--
+      This is the rewritten resume with the improvements applied.
+      Make sure that you return a valid html document with tailwind css classes. Make the rewritten resume look good.
     </rewritten-resume>
   </resume-analysis>
 
