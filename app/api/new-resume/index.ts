@@ -46,6 +46,7 @@ export const POST = async (req: NextRequest) => {
   const { weaknesses, improvements, originalResume } = await req.json();
 
   if (!weaknesses || !improvements || !originalResume) {
+    console.log("Missing weaknesses, improvements, or original resume content");
     return NextResponse.json(
       { error: "Missing weaknesses, improvements, or original resume content" },
       { status: 400 }
