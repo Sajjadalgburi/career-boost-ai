@@ -170,21 +170,26 @@ Your role is to analyze the given resume and ONLY replace the placeholder values
 
 ## TASK 3: Output Format. MAKE SURE TO FOLLOW THIS FORMAT.   
 Return the results in the following XML structure:
-<resume-analysis>
-  <weaknesses>
-    <list>
-      <item>Specific weakness point 1</item>
-      <item>Specific weakness point 2</item>
-    </list>
-  </weaknesses>
-  
-  <improvements>
-    <list>
-      <item>Specific improvement suggestion 1</item>
-      <item>Specific improvement suggestion 2</item>
-    </list>
+
+  <resume-analysis>
+    <weaknesses>
+      <list>
+        <item>Specific weakness point 1</item>
+        <item>Specific weakness point 2</item>
+        <item>Specific weakness point 3</item>
+      </list>
+    </weaknesses>
+
+
+    <improvements>
+      <list>
+        <item>Specific improvement suggestion 1</item>
+        <item>Specific improvement suggestion 2</item>
+        <item>Specific improvement suggestion 3</item>
+      </list>
   </improvements>
-</resume-analysis>
+
+  </resume-analysis>
 
 Important Notes:
 - Provide actionable suggestions to improve the resume.
