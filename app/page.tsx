@@ -8,12 +8,11 @@ import RenderResumeImprovement from "@/components/RenderResumeImprovement";
 
 const Page = () => {
   // ! TESTING
-  const [showResults, setShowResults] = React.useState<boolean>(true); // ! TESTING
+  const [showResults, setShowResults] = React.useState<boolean>(false); // ! TESTING
   // ! TESTING
   const [resume, setResume] = React.useState<File | null>(null);
   const [resumeText, setResumeText] = React.useState<string>("");
   const [prompt, setPrompt] = React.useState<string>("");
-
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showConfetti, setShowConfetti] = React.useState(false);
   const [isPageLoaded, setIsPageLoaded] = React.useState(false);
@@ -95,7 +94,7 @@ const Page = () => {
        * 3a. Make API call to get chat response from AI
        * 3b. Scrape LinkedIn profile based on user resume
        */
-      const res = await fetch("/api/improvedResume", {
+      const res = await fetch("/api/resume-feedback", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
