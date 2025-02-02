@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import ResumeSkeleton from "./ResumeSkeleton";
-import { parseAiResponse } from "@/helpers";
+import { parseAiResponse, setErrorToast } from "@/helpers";
 import { ResumeInterface } from "@/interfaces";
 
 interface RenderResumeImprovementProps {
@@ -15,6 +15,8 @@ const RenderResumeImprovement: React.FC<RenderResumeImprovementProps> = ({
   const [parsedAiRes, setParsedAiRes] = useState<ResumeInterface>(
     {} as ResumeInterface
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [newResume, setNewResume] = useState<string>("");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const scroll = () => {
@@ -31,16 +33,50 @@ const RenderResumeImprovement: React.FC<RenderResumeImprovementProps> = ({
 
   useEffect(() => {
     if (answer) {
-      // Parse new AI response and save to state and localStorage
-      const parsed = parseAiResponse(answer);
-      setParsedAiRes(parsed);
-      localStorage.setItem("resume-feedback", JSON.stringify(parsed));
+      try {
+        // Parse new AI response and save to state and localStorage
+        const parsed = parseAiResponse(answer);
+        setParsedAiRes(parsed);
+
+        // Check if both weaknesses and improvements arrays exist and have content
+
+        if (parsed.weaknesses && parsed.improvements) {
+          const fetchData = async () => {
+            const res = await fetch("/api/new-resume", {
+              method: "POST",
+              body: JSON.stringify({
+                weaknesses: parsed.weaknesses,
+                improvements: parsed.improvements,
+                originalResume: localStorage.getItem("scraped-resume"),
+              }),
+            });
+
+            if (res.status === 400) {
+              setErrorToast("Error generating new resume", 3000);
+              return;
+            }
+
+            if (!res.ok) {
+              setErrorToast("Error generating new resume", 3000);
+              return;
+            }
+
+            const data = await res.json();
+            setNewResume(data);
+            console.log("New Resume", data);
+          };
+
+          fetchData();
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        // If parsing fails, it might be an incomplete response
+        console.log("Partial response received, waiting for more data...");
+      }
     } else if (!isLoading) {
-      // If no answer and not loading, try to get from localStorage
+      // If no answer and not loading, try to get from localStorage to load previous response
       try {
         const savedResponse = localStorage.getItem("resume-feedback");
-        const savedImproved = localStorage.getItem("resume-improved");
-        console.log(savedImproved);
         if (savedResponse) {
           const parsed = JSON.parse(savedResponse);
           setParsedAiRes(parsed);
@@ -136,27 +172,6 @@ const RenderResumeImprovement: React.FC<RenderResumeImprovementProps> = ({
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Rewritten Resume Section */}
-      <section className="transform transition-all duration-300 hover:scale-[1.02]">
-        <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
-            Improved Resume
-          </h2>
-          <div className="h-1 flex-1 bg-gradient-to-r from-blue-500/50 to-transparent rounded-full" />
-        </div>
-        <div className="bg-gradient-to-br from-blue-50/80 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20 backdrop-blur-sm border border-blue-200/50 dark:border-blue-800/50 rounded-xl shadow-lg overflow-hidden">
-          <div className="p-6">
-            <div
-              className="prose prose-zinc dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 leading-relaxed"
-              dangerouslySetInnerHTML={{
-                __html:
-                  parsedAiRes.rewrittenResume || "No improved resume available",
-              }}
-            />
           </div>
         </div>
       </section>
