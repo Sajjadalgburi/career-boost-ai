@@ -1,3 +1,4 @@
+import { ResumeInterface } from "@/interfaces";
 import { toast } from "react-hot-toast";
 
 export const setErrorToast = (error: string, duration = 3000) => {
@@ -32,10 +33,7 @@ export const examples = [
 
 // This parses the AI's response because at first it is a string of html
 // Returns an object with the weaknesses, improvements, and rewritten resume
-export const parseAiResponse = (
-  htmlString: string
-): { weaknesses: string; improvements: string; rewrittenResume: string } => {
-
+export const parseAiResponse = (htmlString: string): ResumeInterface => {
   // Remove old data from local storage
   localStorage.removeItem("resumeImprovement");
 
@@ -44,36 +42,43 @@ export const parseAiResponse = (
   const doc = parser.parseFromString(htmlString, "text/html");
 
   // Find the resume elements
-  /**
- * <resume-analysis>
-    <weaknesses>
-      --YOUR CONTENT HERE--
-    </weaknesses>
-    <improvements>
-      --YOUR CONTENT HERE--
-    </improvements>
-    <rewritten-resume>
-      --YOUR CONTENT HERE--
-    </rewritten-resume>
-  </resume-analysis>
- */
   const resumeEl = doc.querySelector("resume-analysis");
-  const weaknesses = resumeEl?.querySelector("weaknesses")?.textContent?.trim();
 
-  const improvements = resumeEl
-    ?.querySelector("improvements")
-    ?.textContent?.trim();
-  const rewrittenResume = resumeEl
-    ?.querySelector("rewritten-resume")
-    ?.textContent?.trim();
+  // Weaknesses Section
+  const weaknessesSection = resumeEl?.querySelector("weaknesses");
+  // const weaknessesContent = weaknessesSection?.textContent?.trim();
+  const weaknessesList = weaknessesSection?.querySelector("list");
+  const weaknessesListItems = Array.from(
+    weaknessesList?.querySelectorAll("item") || []
+  )
+    .map((item) => item.textContent?.trim())
+    .filter(Boolean);
 
-  
-  const res = {
-    weaknesses: weaknesses || "",
-    improvements: improvements || "",
-    rewrittenResume: rewrittenResume || "",
+  // Improvments Section
+  const improvementsSection = resumeEl?.querySelector("improvements");
+  // const improvementsContent = improvementsSection?.textContent?.trim();
+  const improvementsList = improvementsSection?.querySelector("list");
+  const improvementsListItems = Array.from(
+    improvementsList?.querySelectorAll("item") || []
+  )
+    .map((item) => item.textContent?.trim())
+    .filter(Boolean);
+
+  // Rewritten Resume Section
+  const rewrittenResumeSection = resumeEl?.querySelector("rewritten-resume");
+  const rewrittenResumeContent = rewrittenResumeSection?.textContent?.trim();
+
+  const res: ResumeInterface = {
+    weaknesses: {
+      content: "weaknessesContent",
+      list: weaknessesListItems,
+    },
+    improvements: {
+      content: "improvementsContent",
+      list: improvementsListItems,
+    },
+    rewrittenResume: rewrittenResumeContent,
   };
-
 
   // Save the new data to local storage
   localStorage.setItem("resumeImprovement", JSON.stringify(res));
