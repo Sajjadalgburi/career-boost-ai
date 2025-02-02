@@ -147,7 +147,7 @@ const Page = () => {
       ) : (
         <div className="w-full flex min-h-fit items-center gap-3 px-3">
           {/* Resume Improvement from AI */}
-          <div className="w-2/3 h-[750px] backdrop-blur-lg overflow-auto p-5 shadow-2xl rounded-xl border border-white/65">
+          <div className="w-2/3 h-[750px] backdrop-blur-lg  p-5 shadow-2xl chat-scroll overflow-y-auto rounded-xl border border-white/65">
             <RenderResumeImprovement isLoading={loading} answer={answer} />
           </div>
 
