@@ -61,7 +61,7 @@ User request: ${prompt}. Current resume: ${userResume}
     });
 
     // Return the stream with appropriate headers
-    return new Response(stream, {
+    return NextResponse.json(stream, {
       status: 200,
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
