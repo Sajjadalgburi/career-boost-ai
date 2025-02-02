@@ -40,17 +40,21 @@ User request: ${prompt}. Current resume: ${userResume}
       stream: true,
     });
 
-    // Check if the response is iterable
-    if (!response || typeof response[Symbol.asyncIterator] !== "function") {
-      throw new Error("Response is not iterable");
-    }
-
     // Create a ReadableStream to send the response
+
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const textPart of response) {
-            controller.enqueue(textPart);
+          for await (const chunk of response) {
+            // Extract the text content from the chunk
+            const text = chunk.choices[0].delta.content || "";
+
+            // Encode the text as UTF-8
+            const encoder = new TextEncoder();
+            const encoded = encoder.encode(text);
+
+            // Enqueue the encoded text
+            controller.enqueue(encoded);
           }
           controller.close();
         } catch (error) {
@@ -60,9 +64,8 @@ User request: ${prompt}. Current resume: ${userResume}
       },
     });
 
-    // Return the stream with appropriate headers
-    return NextResponse.json(stream, {
-      status: 200,
+    // Return the stream directly, not wrapped in json()
+    return new Response(stream, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "Transfer-Encoding": "chunked",
