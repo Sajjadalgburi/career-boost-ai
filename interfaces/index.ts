@@ -9,6 +9,18 @@ export interface LandingPageProps {
   resume: File | null;
   showConfetti: boolean;
   handleResumeUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error: string;
   handleSubmit: () => void;
+}
+
+export interface ResumeInterface {
+  weaknesses: {
+    content: string | undefined;
+    list: (string | undefined)[];
+  };
+
+  improvements: {
+    content: string | undefined;
+    list: (string | undefined)[];
+  };
+  rewrittenResume: string | undefined;
 }

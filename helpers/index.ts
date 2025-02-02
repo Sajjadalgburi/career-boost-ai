@@ -1,3 +1,4 @@
+import { ResumeInterface } from "@/interfaces";
 import { toast } from "react-hot-toast";
 
 export const setErrorToast = (error: string, duration = 3000) => {
@@ -29,3 +30,58 @@ export const examples = [
     title: "I want to transition into software development",
   },
 ];
+
+// This parses the AI's response because at first it is a string of html
+// Returns an object with the weaknesses, improvements, and rewritten resume
+export const parseAiResponse = (htmlString: string): ResumeInterface => {
+  // Remove old data from local storage
+  localStorage.removeItem("resumeImprovement");
+
+  // Create a DOM parser
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+
+  // Find the resume elements
+  const resumeEl = doc.querySelector("resume-analysis");
+
+  // Weaknesses Section
+  const weaknessesSection = resumeEl?.querySelector("weaknesses");
+  // const weaknessesContent = weaknessesSection?.textContent?.trim();
+  const weaknessesList = weaknessesSection?.querySelector("list");
+  const weaknessesListItems = Array.from(
+    weaknessesList?.querySelectorAll("item") || []
+  )
+    .map((item) => item.textContent?.trim())
+    .filter(Boolean);
+
+  // Improvments Section
+  const improvementsSection = resumeEl?.querySelector("improvements");
+  // const improvementsContent = improvementsSection?.textContent?.trim();
+  const improvementsList = improvementsSection?.querySelector("list");
+  const improvementsListItems = Array.from(
+    improvementsList?.querySelectorAll("item") || []
+  )
+    .map((item) => item.textContent?.trim())
+    .filter(Boolean);
+
+  // Rewritten Resume Section
+  const rewrittenResumeSection = resumeEl?.querySelector("rewritten-resume");
+  const rewrittenResumeContent = rewrittenResumeSection?.textContent?.trim();
+
+  const res: ResumeInterface = {
+    weaknesses: {
+      content: "weaknessesContent",
+      list: weaknessesListItems,
+    },
+    improvements: {
+      content: "improvementsContent",
+      list: improvementsListItems,
+    },
+    rewrittenResume: rewrittenResumeContent,
+  };
+
+  // Save the new data to local storage
+  localStorage.setItem("resumeImprovement", JSON.stringify(res));
+
+  return res;
+};

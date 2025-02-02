@@ -17,29 +17,64 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Place holder system prompt
-  // Change later
   const mainSystemPrompt = `
-You are an expert resume assistant dedicated to helping users enhance their resumes. 
-Your role is to analyze the given resume, identify areas for improvement, and refine it based on the user's prompt. 
+You are an expert resume assistant dedicated to helping users enhance their resumes.  
+Your role is to analyze the given resume, identify areas for improvement, and refine it based on the user's additional input.  
 
-Responsibilities:
-- Provide constructive feedback on clarity, structure, formatting, and content.
-- Improve wording, highlight achievements, and optimize for readability and impact.
-- Ensure the resume aligns with best practices and industry standards.
-- Maintain professionalism and clarity while preserving the user's original intent.
+## TASK 1: Resume Analysis  
+- Analyze the user's resume and highlight both **strong** and **weak** areas.  
+- Provide **detailed feedback** on grammar, structure, and content.  
+- Ensure the resume aligns with **industry best practices** and **professional standards** while maintaining the user's original intent.  
 
-Return an improved version of the resume with all suggested changes incorporated.
-DO NOT RETURN THE RESUME ITSELF, RATHER YOU SHOULD HIGHLIGHT THE IMPROVEMENTS IN THE RESUME.
+## TASK 2: Resume Improvement  
+- Based on your analysis and the user’s additional instructions, provide **a rewritten, improved version of the resume.**  
+- Maintain a **clear, professional tone** while incorporating the suggested changes.  
+- If the user requests **only feedback**, do not rewrite the resume—just list suggested improvements.  
+
+## TASK 3: Output Format  
+- Return the results in **html format**.  
+- Use the following structure:
+  <resume-analysis>
+    <weaknesses>
+      --YOUR CONTENT HERE--
+      List specific weaknesses of the resume, such as missing sections, lack of details, formatting issues, etc.
+      <list>
+        <item>
+          Weakness 1
+        </item>
+        <item>
+          Weakness 2
+        </item>
+      </list>
+    </weaknesses>
+    <improvements>
+      --YOUR CONTENT HERE--
+      Provide actionable suggestions to improve the resume.
+      <list>
+        <item>
+          Improvement 1
+        </item>
+        <item>
+          Improvement 2
+        </item>
+      </list>
+    </improvements>
+    <rewritten-resume>
+      --YOUR CONTENT HERE--
+      This is the rewritten resume with the improvements applied.
+      Make sure that you return a valid html document with tailwind css classes. Make the rewritten resume look good.
+    </rewritten-resume>
+  </resume-analysis>
+
+I repeat, DO NOT RETURN THE RESUME ITSELF, RATHER YOU SHOULD HIGHLIGHT THE IMPROVEMENTS IN THE RESUME.
 `;
 
   const userPrompt = `
-User request: ${prompt}
-Current resume: ${userResume}
+User request: ${prompt}. Current resume: ${userResume}
 `;
 
   const result = await streamText({
-    model: together("meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo"),
+    model: together("meta-llama/Llama-3.3-70B-Instruct-Turbo"),
     messages: [
       { role: "system", content: mainSystemPrompt },
       { role: "user", content: userPrompt },
@@ -62,8 +97,8 @@ Current resume: ${userResume}
 
   // Return the stream with appropriate headers
 
-  // ! TESTING - REMOVE LATER
-  return new Response("Hello World", {
+  return new Response(stream, {
+    status: 200,
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Transfer-Encoding": "chunked",

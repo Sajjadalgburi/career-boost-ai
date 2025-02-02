@@ -74,3 +74,23 @@ body {
 .auth-button {
   @apply dark:bg-white capitalize bg-black dark:text-black text-white rounded-lg px-4 py-2 text-base font-medium;
 }
+
+.resume-section {
+  @apply transform transition-all duration-300 hover:scale-[1.008];
+}
+
+.resume-section-div {
+  @apply flex items-center gap-3 mb-4;
+}
+
+.chat-scroll::-webkit-scrollbar {
+  width: 12px;
+  @apply bg-transparent;
+  border-radius: 10px;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb {
+  @apply bg-black dark:bg-white;
+  border-radius: 10px;
+  padding: 10px;
+}
