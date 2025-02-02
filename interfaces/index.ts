@@ -22,5 +22,4 @@ export interface ResumeInterface {
     content: string | undefined;
     list: (string | undefined)[];
   };
-  rewrittenResume: string | undefined;
 }
