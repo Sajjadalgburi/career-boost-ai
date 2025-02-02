@@ -42,7 +42,7 @@ const InputArea = ({
           type="submit"
           disabled={loading}
           onClick={handleSubmit}
-          className="absolute right-2 top-1/2 -translate-y-1/2 h-[40px] sm:h-[55px]"
+          className="absolute right-2 top-1/2 -translate-y-1/2 h-[45px] md:h-[43px] lg:h-[55px]"
         >
           {loading ? "Submitting..." : "Submit"}
         </Button>
