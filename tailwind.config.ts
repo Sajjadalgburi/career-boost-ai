@@ -2,7 +2,7 @@
 /* eslint-disable prefer-const */
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
-import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import typography from "@tailwindcss/typography";
 
 export default {
