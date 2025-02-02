@@ -35,7 +35,7 @@ export const examples = [
 // Returns an object with the weaknesses, improvements, and rewritten resume
 export const parseAiResponse = (htmlString: string): ResumeInterface => {
   // Remove old data from local storage
-  localStorage.removeItem("resumeImprovement");
+  localStorage.removeItem("resume-feedback");
 
   // Create a DOM parser
   const parser = new DOMParser();
@@ -64,10 +64,6 @@ export const parseAiResponse = (htmlString: string): ResumeInterface => {
     .map((item) => item.textContent?.trim())
     .filter(Boolean);
 
-  // Rewritten Resume Section
-  const rewrittenResumeSection = resumeEl?.querySelector("rewritten-resume");
-  const rewrittenResumeContent = rewrittenResumeSection?.textContent?.trim();
-
   const res: ResumeInterface = {
     weaknesses: {
       content: "weaknessesContent",
@@ -77,11 +73,10 @@ export const parseAiResponse = (htmlString: string): ResumeInterface => {
       content: "improvementsContent",
       list: improvementsListItems,
     },
-    rewrittenResume: rewrittenResumeContent,
   };
 
   // Save the new data to local storage
-  localStorage.setItem("resumeImprovement", JSON.stringify(res));
+  localStorage.setItem("resume-feedback", JSON.stringify(res));
 
   return res;
 };
