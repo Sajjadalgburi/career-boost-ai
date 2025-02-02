@@ -11,3 +11,16 @@ export interface LandingPageProps {
   handleResumeUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: () => void;
 }
+
+export interface ResumeInterface {
+  weaknesses: {
+    content: string | undefined;
+    list: (string | undefined)[];
+  };
+
+  improvements: {
+    content: string | undefined;
+    list: (string | undefined)[];
+  };
+  rewrittenResume: string | undefined;
+}
