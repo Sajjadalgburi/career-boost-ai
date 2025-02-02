@@ -38,6 +38,7 @@ const Page = () => {
 
       const formData = new FormData();
       formData.append("file", file);
+      localStorage.removeItem("scraped-resume");
 
       const res = await fetch("/api/extract-text", {
         method: "POST",
@@ -56,6 +57,7 @@ const Page = () => {
 
       const { text } = await res.json();
       setResumeText(text);
+      localStorage.setItem("scraped-resume", text);
       setResume(file);
       setShowConfetti(true);
       toast.success("Resume uploaded successfully", { duration: 1500 });
@@ -89,11 +91,6 @@ const Page = () => {
       setLoading(true);
       setShowResults(true);
 
-      /**
-       * 3.
-       * 3a. Make API call to get chat response from AI
-       * 3b. Scrape LinkedIn profile based on user resume
-       */
       const res = await fetch("/api/resume-feedback", {
         method: "POST",
         headers: {
