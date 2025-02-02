@@ -3,6 +3,7 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
+import typography from "@tailwindcss/typography";
 
 export default {
   darkMode: ["class"],
@@ -80,7 +81,7 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate, addVariablesForColors],
+  plugins: [tailwindcssAnimate, addVariablesForColors, typography],
 } satisfies Config;
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
