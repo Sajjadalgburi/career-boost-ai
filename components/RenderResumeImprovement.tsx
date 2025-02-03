@@ -34,58 +34,68 @@ const RenderResumeImprovement: React.FC<RenderResumeImprovementProps> = ({
   useEffect(() => {
     if (answer) {
       try {
-        // Parse new AI response and save to state and localStorage
         const parsed = parseAiResponse(answer);
         setParsedAiRes(parsed);
 
-        // Check if both weaknesses and improvements arrays exist and have content
+        // Only make the new resume request if we have valid parsed data
+        if (
+          parsed?.weaknesses?.list?.length > 0 &&
+          parsed?.improvements?.list?.length > 0
+        ) {
+          const fetchNewResume = async () => {
+            try {
+              const originalResume = localStorage.getItem("scraped-resume");
+              if (!originalResume) {
+                setErrorToast("Original resume not found", 3000);
+                return;
+              }
 
-        if (parsed.weaknesses && parsed.improvements) {
-          const fetchData = async () => {
-            const res = await fetch("/api/new-resume", {
-              method: "POST",
-              body: JSON.stringify({
-                weaknesses: parsed.weaknesses,
-                improvements: parsed.improvements,
-                originalResume: localStorage.getItem("scraped-resume"),
-              }),
-            });
+              const res = await fetch("/api/new-resume", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  weaknesses: parsed.weaknesses?.list.map((item) => item),
+                  improvements: parsed.improvements?.list.map((item) => item),
+                  originalResume,
+                }),
+              });
 
-            if (res.status === 400) {
+              if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+              }
+
+              const data: string = await res.json();
+              console.log("----Got back AI Response for resume----\n");
+              console.log(data);
+
+              const pdfRes = await fetch("/api/laTex-to-pdf", {
+                method: "POST",
+                body: JSON.stringify({ latex_resume: data }),
+              });
+
+              if (!pdfRes.ok) {
+                throw new Error(`Error creating PDF: ${pdfRes.status}`);
+              }
+
+              if (pdfRes.ok) {
+                console.log("----Pdf Successfully Created----");
+              }
+            } catch (error) {
+              console.error("Error fetching new resume:", error);
               setErrorToast("Error generating new resume", 3000);
-              return;
             }
-
-            if (!res.ok) {
-              setErrorToast("Error generating new resume", 3000);
-              return;
-            }
-
-            const data = await res.json();
-            setNewResume(data);
-            console.log("New Resume", data);
           };
 
-          fetchData();
-        }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (error) {
-        // If parsing fails, it might be an incomplete response
-        console.log("Partial response received, waiting for more data...");
-      }
-    } else if (!isLoading) {
-      // If no answer and not loading, try to get from localStorage to load previous response
-      try {
-        const savedResponse = localStorage.getItem("resume-feedback");
-        if (savedResponse) {
-          const parsed = JSON.parse(savedResponse);
-          setParsedAiRes(parsed);
+          fetchNewResume();
         }
       } catch (error) {
-        console.error("Error reading from localStorage:", error);
+        console.error("Error parsing AI response:", error);
+        setErrorToast("Error parsing AI response", 3000);
       }
     }
-  }, [answer, isLoading]);
+  }, [answer]);
 
   useEffect(() => {
     scroll();
