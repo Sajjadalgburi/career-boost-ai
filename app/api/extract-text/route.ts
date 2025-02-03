@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log("Initializing extract-text route");
+    console.log("-----Initializing extract-text route-----");
     const formData = await req.formData();
     const [file] = formData.getAll("file") as unknown as File[];
 
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     // merge the text items because pdfjs returns an array of text items
     const extractedText = mergeTextItems(textContent);
 
-    console.log("Resume uploaded successfully");
+    console.log("-----Resume uploaded successfully-----");
     return NextResponse.json({ text: extractedText });
   } catch (error) {
     console.error(error);
