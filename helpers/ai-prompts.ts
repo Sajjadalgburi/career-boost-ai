@@ -7,8 +7,9 @@ export const LATEX_CONTENT = `
 %------------------------
 
 
-\\documentclass[letterpaper,11pt]{article}
+$ ----- Leave this section alone and this tag -----
 
+\\documentclass[letterpaper,11pt]{article}
 \\usepackage{latexsym}
 \\usepackage[empty]{fullpage}
 \\usepackage{titlesec}
@@ -49,9 +50,12 @@ export const LATEX_CONTENT = `
 % Ensure that generate pdf is machine readable/ATS parsable
 \\pdfgentounicode=1
 
+
+$ ----- Leave this section alone and this tag -----
 %-------------------------
 % Custom commands
 \\newcommand{\\resumeItem}[1]{
+
   \\item\\small{
     {#1 \\vspace{-2pt}}
   }
@@ -87,7 +91,6 @@ export const LATEX_CONTENT = `
 \\newcommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{-5pt}}
 
 \\begin{document}
-
 \\begin{center}
     \\textbf{\\Huge \\scshape {IMPROVED NAME}} \\\\ \\vspace{1pt}
     {{IMPROVED PHONE}} $|$
@@ -119,12 +122,10 @@ export const LATEX_CONTENT = `
 \\ % ---- REPEAT FOR EACH JOB ----
 \\resumeProjectHeading
     {\\textbf{IMPROVED JOB TITLE} $|$ \\emph{IMPROVED COMPANY} $|$
-    \\href{LINK OF LIVE SITE}{\\underline{Live Site}} $|$
-    \\href{LINK OF GITHUB. IF THERE ISNT, THEN GITHUB HOMEPAGE}{\\underline{Github}} } {IMPROVED DATES}
+    \\href{ADD LINK OF LIVE SITE}{\\underline{Live Site}} $|$
+    \\href{ADD LINK OF GITHUB> IF THERE ISNT THEN REMOVE THIS PIECE}{\\underline{Github}} } {IMPROVED DATES}
     \\resumeItemListStart
         \\resumeItem{IMPROVED BULLET POINT 1}
-
-
         \\resumeItem{IMPROVED BULLET POINT 2}
         \\resumeItem{IMPROVED BULLET POINT 3}
     \\resumeItemListEnd
@@ -135,8 +136,8 @@ export const LATEX_CONTENT = `
 \\ % ---- REPEAT FOR EACH PROJECT ----
 \\resumeProjectHeading
     {\\textbf{IMPROVED PROJECT NAME} $|$ \\emph{IMPROVED TECHNOLOGIES} $|$
-    \\href{LINK OF LIVE SITE}{\\underline{Live Site}} $|$
-    \\href{LINK OF GITHUB. IF THERE ISNT, THEN GITHUB HOMEPAGE}{\\underline{Github}} }{DATE IF THERE ISN'T, THEN REMOVE THE DATE}
+    \\href{ADD LINK OF LIVE SITE}{\\underline{Live Site}} $|$
+    \\href{ADD LINK OF GITHUB> IF THERE ISNT THEN REMOVE THIS PIECE}{\\underline{Github}} }{DATE IF THERE ISN'T, THEN REMOVE THE DATE}
     \\resumeItemListStart
         \\resumeItem{IMPROVED PROJECT BULLET 1}
         \\resumeItem{IMPROVED PROJECT BULLET 2}
@@ -144,12 +145,14 @@ export const LATEX_CONTENT = `
     \\resumeItemListEnd
 \\resumeSubHeadingListEnd
 
-\\section{Coursework \\& Certifications}
+\\section{Coursework \& Certifications}
+    %----- if both courses and certifications are not present, then remove the section -----
     \\resumeSubSubheadingLeft{Relevant Coursework:}{IMPROVED COURSEWORK IF THERE ISN'T, THEN REMOVE THE COURSEWORK}
-    \\vspace{-14pt}
+      \\vspace{-14pt}
     \\resumeSubSubheadingLeft{Certifications:}{IMPROVED CERTIFICATIONS IF THERE ISN'T, THEN REMOVE THE CERTIFICATIONS}
 
-\\ % ---- ALWAYS CLOSE OFF THE DOCUMENT TAG ----
+
+    \\ % ---- ALWAYS CLOSE OFF THE DOCUMENT TAG ----
 \\end{document}
 `;
 
