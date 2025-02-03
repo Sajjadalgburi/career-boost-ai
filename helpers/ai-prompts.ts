@@ -117,6 +117,8 @@ $ ----- Leave this section alone and this tag -----
     }}
 \\end{itemize}
 
+%-- You're almost there, just make sure to close the document tag at the end of the response --%
+
 \\section{Work Experience}
 \\resumeSubHeadingListStart
 \\ % ---- REPEAT FOR EACH JOB ----
@@ -147,12 +149,13 @@ $ ----- Leave this section alone and this tag -----
 
 \\section{Coursework \& Certifications}
     %----- if both courses and certifications are not present, then remove the section -----
-    \\resumeSubSubheadingLeft{Relevant Coursework:}{IMPROVED COURSEWORK IF THERE ISN'T, THEN REMOVE THE COURSEWORK}
-      \\vspace{-14pt}
-    \\resumeSubSubheadingLeft{Certifications:}{IMPROVED CERTIFICATIONS IF THERE ISN'T, THEN REMOVE THE CERTIFICATIONS}
-
-
-    \\ % ---- ALWAYS CLOSE OFF THE DOCUMENT TAG ----
+    \\resumeSubHeadingListStart
+          \\resumeSubSubheading{Relevant Coursework:}{IMPROVED COURSEWORK IF THERE ISN'T, THEN REMOVE THE COURSEWORK}
+    \\resumeSubHeadingListEnd
+    \\resumeSubHeadingListStart
+        \\resumeSubSubheading{Certifications:}{IMPROVED CERTIFICATIONS IF THERE ISN'T, THEN REMOVE THE CERTIFICATIONS}
+\\resumeSubHeadingListEnd
+\\ % ---- ALWAYS CLOSE OFF THE DOCUMENT TAG ----
 \\end{document}
 `;
 
