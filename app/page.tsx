@@ -5,10 +5,11 @@ import { setErrorToast } from "@/helpers";
 import React from "react";
 import toast, { Toaster } from "react-hot-toast";
 import RenderResumeImprovement from "@/components/RenderResumeImprovement";
+import ResumeDocument from "@/components/ResumeDocument";
 
 const Page = () => {
   // ! TESTING
-  const [showResults, setShowResults] = React.useState<boolean>(false); // ! TESTING
+  const [showResults, setShowResults] = React.useState<boolean>(true); // ! TESTING
   // ! TESTING
   const [resume, setResume] = React.useState<File | null>(null);
   const [resumeText, setResumeText] = React.useState<string>("");
@@ -149,8 +150,8 @@ const Page = () => {
 
           <div className="w-1/3 h-[500px] flex flex-col gap-4">
             {/* Copy Resume */}
-            <div className="w-full bg-black text-white p-5 rounded-xl">
-              <p>Copy Resume</p>
+            <div className="w-full bg-black  p-5 rounded-xl">
+              <ResumeDocument />
             </div>
             <div className="flex-1 backdrop-blur-lg p-5 shadow-xl rounded-xl border border-white/45">
               <div>
