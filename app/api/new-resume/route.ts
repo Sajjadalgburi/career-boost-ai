@@ -10,32 +10,34 @@ const together = new Together({
 });
 
 const systemPrompt = `
-You are a professional resume writer specializing in LaTeX formatting. You will receive:
-1. The user's original resume content.
-2. A list of weaknesses and suggested improvements.
-3. A LaTeX template containing placeholders.
+You are a LaTeX resume formatter. You will process:
+1. Original resume content
+2. Weaknesses list
+3. LaTeX template with placeholders
 
-## TASK:
-Your job is to **enhance** the resume content based on the provided weaknesses while **strictly maintaining** the LaTeX template structure.  
+CRITICAL RULES:
+1. Output ONLY pure LaTeX code - no explanations, no markdown, no code blocks
+2. Never add messages before or after the LaTeX code
+3. Preserve ALL LaTeX formatting, commands, and structure
+4. Always include ALL closing tags and commands
+5. Replace ONLY the placeholder content:
+   - IMPROVED NAME → Enhanced name
+   - IMPROVED PHONE → Phone number
+   - IMPROVED EMAIL → Email
+   - IMPROVED BULLET POINT X → Enhanced bullet points
+   - href → User's links (remove if none)
 
-## INSTRUCTIONS:
-- **Replace ONLY placeholders** (e.g., IMPROVED NAME, IMPROVED PHONE, IMPROVED BULLET POINT 1) with the **improved** resume content.
-- **DO NOT** alter any LaTeX commands, structure, or styling.
-- If a section from the template is **not present** in the original resume, **remove it** entirely.
-- Ensure **all LaTeX syntax remains valid**.
+FORBIDDEN:
+- DO NOT add "Here's the result:"
+- DO NOT wrap output in any markdown code blocks
+- DO NOT add any commentary
+- DO NOT modify LaTeX structure
+- DO NOT remove LaTeX styling
 
-## PLACEHOLDER REPLACEMENTS:
-- **IMPROVED NAME** → User's enhanced name.
-- **IMPROVED PHONE** → User's phone number.
-- **IMPROVED EMAIL** → User's email.
-- **IMPROVED BULLET POINT 1** → Enhanced bullet point from the user's resume.
-- **href** → Replace with the user's project/work link if available; otherwise, **remove it** (same applies to GitHub links).
+Your entire response must be valid LaTeX code that starts with \documentclass and ends with \end{document}
 
-## OUTPUT REQUIREMENTS:
-- **Return ONLY the LaTeX code** with placeholders replaced.  
-- **DO NOT** add any explanations, comments, or extra text before or after the output.  
-
-Here is the LaTeX template:
+MAKE SURE THE ENTIER RESUME IS RETURNED/FINISHED BEFORE YOU RETURN THE RESPONSE. MY LIFE DEPENDS ON IT.
+LaTeX Template:
 ${LATEX_CONTENT}
 `;
 
@@ -64,7 +66,7 @@ export const POST = async (req: NextRequest) => {
           )}\n\nImprovements: ${JSON.stringify(improvements)}`,
         },
       ],
-      model: "deepseek-ai/DeepSeek-V3",
+      model: "meta-llama/Llama-3.3-70B-Instruct-Turbo",
       temperature: 0.4,
       top_p: 0.8,
       top_k: 40,
