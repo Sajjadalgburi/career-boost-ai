@@ -17,7 +17,7 @@ const InputArea = ({
 }) => {
   const updatePrompt = useCallback(
     (newPrompt: string) => {
-      console.log("Updating prompt to:", newPrompt);
+      console.log("---Updating prompt to---", newPrompt);
       setPrompt(newPrompt);
     },
     [setPrompt]
