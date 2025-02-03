@@ -1,4 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const ResumeDocument = () => {
   const [pdfUrl, setPdfUrl] = useState<string>("");
@@ -29,21 +38,50 @@ const ResumeDocument = () => {
   }, [isFetched, pdfUrl]);
 
   if (!pdfUrl) {
-    return <div>Loading PDF...</div>;
+    return (
+      <Button className="flex items-center gap-2">
+        {/* add spinner later on */}
+        Loading PDF... <span className="animate-spin"></span>
+      </Button>
+    );
   }
 
   return (
-    <div className="w-full h-screen">
-      <object
-        data={`${pdfUrl}#page=1`}
-        type="application/pdf"
-        width="100%"
-        height="100%"
-        className="rounded-lg shadow-lg"
-      >
-        <p>Unable to display PDF file.</p>
-      </object>
-    </div>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button
+          variant="outline"
+          className="hover:bg-gray-100 transition-colors"
+        >
+          View Improved Resume
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="w-[95vw] max-w-[1200px] h-[90vh] p-6">
+        <DialogHeader className="mb-4">
+          <DialogTitle className="text-2xl font-bold">
+            Your Improved Resume
+          </DialogTitle>
+          <DialogDescription className="text-gray-600 mt-2">
+            Review your AI-enhanced resume below. You can scroll, zoom, and
+            download the PDF.
+          </DialogDescription>
+        </DialogHeader>
+
+        {/* Make embed responsive on smaller screens */}
+        <div className="flex-1 w-full h-[calc(90vh-120px)] overflow-hidden">
+          <embed
+            src={`${pdfUrl}#page=1&zoom=page-width`}
+            type="application/pdf"
+            className="w-full h-full object-contain rounded-lg shadow-lg border border-gray-200"
+            style={{
+              minHeight: "300px",
+              maxHeight: "100%",
+              WebkitOverflowScrolling: "touch",
+            }}
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
