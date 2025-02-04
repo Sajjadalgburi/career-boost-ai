@@ -46,7 +46,6 @@ export const parseAiResponse = (htmlString: string): ResumeInterface => {
 
   // Weaknesses Section
   const weaknessesSection = resumeEl?.querySelector("weaknesses");
-  // const weaknessesContent = weaknessesSection?.textContent?.trim();
   const weaknessesList = weaknessesSection?.querySelector("list");
   const weaknessesListItems = Array.from(
     weaknessesList?.querySelectorAll("item") || []
@@ -74,6 +73,8 @@ export const parseAiResponse = (htmlString: string): ResumeInterface => {
       list: improvementsListItems,
     },
   };
+
+  const linkedIn_Job_Quries = resumeEl?.querySelector("linkedIn-Job-Queries");
 
   // Save the new data to local storage
   localStorage.setItem("resume-feedback", JSON.stringify(res));
