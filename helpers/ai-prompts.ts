@@ -185,17 +185,33 @@ Return the results in the following XML structure:
         <item>Specific weakness point 3</item>
       </list>
     </weaknesses>
-
-
     <improvements>
       <list>
         <item>Specific improvement suggestion 1</item>
         <item>Specific improvement suggestion 2</item>
         <item>Specific improvement suggestion 3</item>
       </list>
-  </improvements>
+    </improvements>
+    <linkedIn-Job-Queries>
+      <country>
+          <item>List the users country</item>
+      </country>
 
+      <job-title>
+        <list>
+          <item>List the user's wanted job or current job as title to be searched for on linkedin</item>
+          <item>List the user's wanted job or current job as title to be searched for on linkedin</item>
+        </list>
+      </job-title>
+
+      <programing-languages>
+        <item>List of programing languages the userrr is proficient in</item>
+        <item>List of programing languages the userrr is proficient in</item>
+        <item>List of programing languages the userrr is proficient in</item>
+      </programing-languages>
+    </linkedIn-Job-Queries>
   </resume-analysis>
+
 
 Important Notes:
 - Provide actionable suggestions to improve the resume.
